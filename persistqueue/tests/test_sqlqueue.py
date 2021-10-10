@@ -7,11 +7,25 @@ import tempfile
 import unittest
 from threading import Thread
 
-from persistqueue import SQLiteQueue, FILOSQLiteQueue, UniqueQ
+from persistqueue import SQLiteQueue, FILOSQLiteQueue, UniqueQ, MySQLQueue
 from persistqueue import Empty
 from persistqueue.serializers import json as serializers_json
 from persistqueue.serializers import pickle as serializers_pickle
 from persistqueue.serializers import msgpack as serializers_msgpack
+
+
+class MySQLQueueTest(unittest.TestCase):
+    def test_1(self):
+        q = MySQLQueue("127.0.0.1", "root", "123456", "testqueu", 33306)
+        q.put("peter")
+        data = q.get()
+
+
+        print(data)
+
+        q.put("yuzhi")
+        data = q.get()
+        self.assertEqual(data, "yuzhi")
 
 
 class SQLite3QueueTest(unittest.TestCase):
