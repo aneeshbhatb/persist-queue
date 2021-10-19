@@ -424,7 +424,7 @@ class MySQLQueue(SQLBase):
 
     @property
     def size(self):
-        return self.total
+        return self._count()
 
     def qsize(self):
         return max(0, self.size)
@@ -469,3 +469,7 @@ class MySQLConn(object):
         if not self.closed:
             self._conn.close()
         self.closed = True
+
+    def commit(self):
+        if not self.closed:
+            self._conn.commit()
